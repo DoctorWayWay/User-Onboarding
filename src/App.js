@@ -5,7 +5,7 @@ import axios from "axios";
 import Form from "./components/Form";
 // Initiating State Values
 const initialFormData = {
-  name: "",
+  username: "",
   email: "",
   password: "",
   termsOfService: "",
@@ -17,7 +17,7 @@ function App() {
   // Returning App Component
   return (
     <div className="App">
-      <Form />
+      <Form values={formData} />
     </div>
   );
 }
