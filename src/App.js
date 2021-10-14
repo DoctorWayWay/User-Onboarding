@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 // Importing Components
 import AddUserForm from "./components/AddUserForm";
-import AddUser from "./components/AddUser";
+import UserCard from "./components/UserCard";
 // App Component
 function App() {
   // State Management
@@ -14,7 +14,6 @@ function App() {
     axios
       .get("https://reqres.in/api/users")
       .then((response) => {
-        // console.log(response.data.data);
         setUsers(response.data.data);
       })
       .catch((error) => {
@@ -22,13 +21,16 @@ function App() {
       });
   };
   useEffect(getUsers, []);
+  useEffect(() => {
+    console.log(users);
+  }, [users]);
 
   // Returning App Component
   return (
     <div className="App">
-      <AddUserForm />
+      <AddUserForm setUsers={setUsers} users={users} />
       {users.map((user) => {
-        return <AddUser key={user.id} userData={user} />;
+        return <UserCard key={user.id} userData={user} />;
       })}
     </div>
   );

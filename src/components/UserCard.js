@@ -2,7 +2,8 @@
 import React from "react";
 
 // AddUser Component
-const AddUser = (userData) => {
+const UserCard = (props) => {
+  const { userData } = props;
   if (!userData) {
     return <h3>Working on getting user data...</h3>;
   }
@@ -14,4 +15,4 @@ const AddUser = (userData) => {
     </div>
   );
 };
-export default AddUser;
+export default UserCard;

@@ -1,5 +1,6 @@
 // Importing Libraries
 import React, { useState } from "react";
+import addUserFormSchema from "../schemas/addUserSchema.js";
 import * as yup from "yup";
 
 // Importing Form Data
@@ -7,36 +8,64 @@ import {
   initialFormValues,
   initialFormErrors,
 } from "./../data/addUserFormData.js";
+import { useEffect } from "react/cjs/react.development";
+import axios from "axios";
 
 // Component
-const AddUserForm = () => {
+const AddUserForm = (props) => {
+  // Destructuring
+  const { setUsers, users } = props;
+
   // State Management
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
+  const [disabled, setDisabled] = useState(true);
 
   // Helpers
-  const validate = () => {};
+  const validate = (name, value) => {
+    yup
+      .reach(addUserFormSchema, name)
+      .validate(value)
+      .then(() => setFormErrors({ ...formErrors, [name]: "" }))
+      .catch((error) =>
+        setFormErrors({ ...formErrors, [name]: error.errors[0] })
+      );
+  };
 
   // Event Handlers
   const handleChange = (event) => {
-    // If the input is a checkbox...
-    if (event.target.type === "checkbox") {
-      // ...use the "checked" value to update formValues...
-      setFormValues({
-        ...formValues,
-        [event.target.name]: event.target.checked,
-      });
-    } else {
-      // ...otherwise, use the input value, itself.
-      setFormValues({
-        ...formValues,
-        [event.target.name]: event.target.value,
-      });
-    }
+    const { name, value, checked, type } = event.target;
+    const inputValue = type === "checkbox" ? checked : value;
+    validate(name, inputValue);
+    setFormValues({ ...formValues, [name]: inputValue });
   };
+
+  const postNewUser = (newUser) => {
+    axios
+      .post("https://reqres.in/api/users", newUser)
+      .then((response) => {
+        console.log("Post user successful!");
+        setUsers([newUser, ...users]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    // Creating newUser object
+    const newUser = {
+      firstName: formValues.firstName,
+      email: formValues.email,
+      id: users.length + 1,
+    };
+    postNewUser(newUser);
   };
+  // Disable/Enable button if form is valid
+  useEffect(() => {
+    addUserFormSchema.isValid(formValues).then((valid) => setDisabled(!valid));
+  }, [formValues]);
 
   // Returning Form Component
   return (
@@ -92,7 +121,7 @@ const AddUserForm = () => {
         />
       </label>
       <br />
-      <button>Submit</button>
+      <button disabled={disabled}>Submit</button>
     </form>
   );
 };
