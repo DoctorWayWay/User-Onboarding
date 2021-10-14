@@ -121,7 +121,9 @@ const AddUserForm = (props) => {
         />
       </label>
       <br />
-      <button disabled={disabled}>Submit</button>
+      <button id="submitButton" disabled={disabled}>
+        Submit
+      </button>
     </form>
   );
 };
