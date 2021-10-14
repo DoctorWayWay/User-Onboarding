@@ -9,7 +9,7 @@ const AddUser = (userData) => {
   // Returning AddUser Component
   return (
     <div>
-      <h3>{userData.username}</h3>
+      <h3>{userData.first_name || userData.firstName}</h3>
       <p>{userData.email}</p>
     </div>
   );

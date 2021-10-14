@@ -45,7 +45,7 @@ const AddUserForm = () => {
 
       {/* If there are validation errors, show them below */}
       <div>
-        <p>{formErrors.username}</p>
+        <p>{formErrors.firstName}</p>
         <p>{formErrors.email}</p>
         <p>{formErrors.password}</p>
         <p>{formErrors.termsOfService}</p>
@@ -53,11 +53,11 @@ const AddUserForm = () => {
 
       {/* Form Inputs are Below */}
       <label>
-        Username:
+        Name:
         <input
           type="text"
-          name="username"
-          value={formValues.username}
+          name="firstName"
+          value={formValues.firstName}
           onChange={handleChange}
         />
       </label>

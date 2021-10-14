@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 // Importing Components
 import AddUserForm from "./components/AddUserForm";
-
+import AddUser from "./components/AddUser";
 // App Component
 function App() {
   // State Management
@@ -27,6 +27,9 @@ function App() {
   return (
     <div className="App">
       <AddUserForm />
+      {users.map((user) => {
+        return <AddUser key={user.id} userData={user} />;
+      })}
     </div>
   );
 }

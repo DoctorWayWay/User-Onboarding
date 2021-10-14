@@ -1,12 +1,12 @@
 export const initialFormValues = {
-  username: "",
+  firstName: "",
   email: "",
   password: "",
   termsOfService: false,
 };
 
 export const initialFormErrors = {
-  username: "",
+  firstName: "",
   email: "",
   password: "",
   termsOfService: "",

@@ -2,11 +2,11 @@
 import * as yup from "yup";
 
 const addUserFormSchema = yup.object().shape({
-  username: yup
+  firstName: yup
     .string()
     .trim()
-    .required("Please input a username.")
-    .min(2, "Username must be 2 or more characters."),
+    .required("Please input your name.")
+    .min(2, "Name must be 2 or more characters."),
   email: yup
     .string()
     .email("Invalid email. Please try again.")
