@@ -14,7 +14,8 @@ function App() {
     axios
       .get("https://reqres.in/api/users")
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data.data);
+        setUsers(response.data.data);
       })
       .catch((error) => {
         console.error(error);
