@@ -64,7 +64,7 @@ describe("Form App", () => {
       firstNameInput().type("John");
       emailInput().type("john@asdf.com");
       passwordInput().type("12345678");
-      termsOfServiceCheckbox().check();
+      termsOfServiceCheckbox().click();
       // Verify that button is enabled when form is filled
       submitButton().should("not.be.disabled");
     });
@@ -74,10 +74,42 @@ describe("Form App", () => {
       firstNameInput().type("John");
       emailInput().type("john@asdf.com");
       passwordInput().type("12345678");
-      termsOfServiceCheckbox().check();
+      termsOfServiceCheckbox().click();
       submitButton().click();
       // Verify the submition
       cy.contains("John");
+    });
+  });
+  describe("Verifying form validation errors", () => {
+    // Testing error messages for name input
+    it("Invalid NAME input shows error", () => {
+      firstNameInput().type("j");
+      cy.contains("Name must be 2 or more characters.");
+      firstNameInput().type("{selectall}{del}");
+      cy.contains("Please input your name.");
+    });
+    // Testing error messages for email input
+    it("Invalid EMAIL input shows error", () => {
+      emailInput().type("j");
+      cy.contains("Invalid email. Please try again.");
+      emailInput().type("{selectall}{del}");
+      cy.contains("Please input an email.");
+    });
+    // Testing error messages for password input
+    it("Invalid PASSWORD input shows error", () => {
+      passwordInput().type("j");
+      cy.contains("Password must be 8 or more characters.");
+      passwordInput().type("{selectall}{del}");
+      cy.contains("Please input a password.");
+    });
+    // Testing error messages for checkbox
+    it("Unchecking terms of service shows error message", () => {
+      // Checking terms of service checkbox
+      termsOfServiceCheckbox().click();
+      // Unchecking terms of service checkbox
+      termsOfServiceCheckbox().click();
+      // Verify that an error is shown
+      cy.contains("You must accept our terms of service in order to continue.");
     });
   });
 });
