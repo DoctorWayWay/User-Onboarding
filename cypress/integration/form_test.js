@@ -26,7 +26,7 @@ describe("Form App", () => {
   });
 
   // Testing Form Input Functionality
-  describe("Filling out form inputs", () => {
+  describe("Form can be filled", () => {
     it("Can navigate to url", () => {
       cy.url().should("include", "localhost");
     });
@@ -48,10 +48,36 @@ describe("Form App", () => {
         .should("have.value", "")
         .type("12345678")
         .should("have.value", "12345678");
+    });
+
+    // Testing checkbox functionality
+    it("Can check terms of service checkbox", () => {
       termsOfServiceCheckbox()
         .should("not.be.checked")
         .check()
         .should("be.checked");
+    });
+  });
+  describe("Submitting Button functions properly", () => {
+    it("Submit button is enabled when form is completely filled", () => {
+      // Filling out form
+      firstNameInput().type("John");
+      emailInput().type("john@asdf.com");
+      passwordInput().type("12345678");
+      termsOfServiceCheckbox().check();
+      // Verify that button is enabled when form is filled
+      submitButton().should("not.be.disabled");
+    });
+
+    it("Form can be submitted with submit button", () => {
+      // Filling out form
+      firstNameInput().type("John");
+      emailInput().type("john@asdf.com");
+      passwordInput().type("12345678");
+      termsOfServiceCheckbox().check();
+      submitButton().click();
+      // Verify the submition
+      cy.contains("John");
     });
   });
 });
